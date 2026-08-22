@@ -63,7 +63,7 @@ class AppSettingController extends Controller
     {
         $setting = AppSetting::query()->where('key', 'app_logo')->first();
 
-        if (! $setting?->value) {
+        if (! $setting?->value || ! Storage::disk('public')->exists($setting->value)) {
             return null;
         }
 
@@ -72,5 +72,14 @@ class AppSettingController extends Controller
         return $setting->updated_at instanceof CarbonInterface
             ? $url.'?v='.$setting->updated_at->timestamp
             : $url;
+    }
+
+    public static function logoPath(): ?string
+    {
+        $setting = AppSetting::query()->where('key', 'app_logo')->first();
+
+        return ($setting?->value && Storage::disk('public')->exists($setting->value))
+            ? $setting->value
+            : null;
     }
 }

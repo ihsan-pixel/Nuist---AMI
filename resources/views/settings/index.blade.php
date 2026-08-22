@@ -73,13 +73,17 @@
                     <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6">
                         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Ringkasan</h3>
 
-                        @if ($settings['app_logo']->value ?? null)
+                        @if (\App\Http\Controllers\Ami\AppSettingController::logoUrl())
                             <div class="mt-4 flex items-center gap-4">
                                 <img src="{{ \App\Http\Controllers\Ami\AppSettingController::logoUrl() }}" alt="Logo aplikasi" class="h-16 w-16 rounded-2xl object-cover ring-1 ring-slate-200">
                                 <div>
                                     <p class="text-sm font-medium text-slate-900">Logo saat ini aktif</p>
-                                    <p class="text-sm text-slate-500 break-all">{{ $settings['app_logo']->value }}</p>
+                                    <p class="text-sm text-slate-500 break-all">{{ \App\Http\Controllers\Ami\AppSettingController::logoPath() }}</p>
                                 </div>
+                            </div>
+                        @elseif ($settings['app_logo']->value ?? null)
+                            <div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                                Logo tersimpan di database, tetapi file tidak ditemukan di storage.
                             </div>
                         @else
                             <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
