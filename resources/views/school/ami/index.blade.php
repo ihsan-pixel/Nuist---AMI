@@ -5,7 +5,7 @@
     </div>
 
     @if (! $assignment)
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">Belum ada assignment aktif.</div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">Belum ada assignment aktif</div>
     @else
         <div class="mb-4 grid gap-4 md:grid-cols-3">
             <div class="rounded-2xl bg-white p-4 shadow-sm">
