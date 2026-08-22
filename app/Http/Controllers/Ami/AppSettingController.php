@@ -7,7 +7,6 @@ use App\Models\AppSetting;
 use Carbon\CarbonInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AppSettingController extends Controller
@@ -63,11 +62,11 @@ class AppSettingController extends Controller
     {
         $setting = AppSetting::query()->where('key', 'app_logo')->first();
 
-        if (! $setting?->value || ! Storage::disk('public')->exists($setting->value)) {
+        if (! $setting?->value || ! self::logoExists($setting->value)) {
             return null;
         }
 
-        $url = Storage::disk('public')->url($setting->value);
+        $url = url('storage/'.$setting->value);
 
         return $setting->updated_at instanceof CarbonInterface
             ? $url.'?v='.$setting->updated_at->timestamp
@@ -78,8 +77,13 @@ class AppSettingController extends Controller
     {
         $setting = AppSetting::query()->where('key', 'app_logo')->first();
 
-        return ($setting?->value && Storage::disk('public')->exists($setting->value))
+        return ($setting?->value && self::logoExists($setting->value))
             ? $setting->value
             : null;
+    }
+
+    private static function logoExists(string $path): bool
+    {
+        return is_file(storage_path('app/public/'.$path));
     }
 }
