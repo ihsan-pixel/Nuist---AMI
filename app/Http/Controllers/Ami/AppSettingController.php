@@ -66,7 +66,7 @@ class AppSettingController extends Controller
             return null;
         }
 
-        $url = url('storage/'.$setting->value);
+        $url = route('admin.settings.logo');
 
         return $setting->updated_at instanceof CarbonInterface
             ? $url.'?v='.$setting->updated_at->timestamp
@@ -85,5 +85,15 @@ class AppSettingController extends Controller
     private static function logoExists(string $path): bool
     {
         return is_file(storage_path('app/public/'.$path));
+    }
+
+    public function logo(): \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+    {
+        $setting = AppSetting::query()->where('key', 'app_logo')->firstOrFail();
+        abort_unless($setting->value && self::logoExists($setting->value), 404);
+
+        return response()->file(storage_path('app/public/'.$setting->value), [
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
     }
 }

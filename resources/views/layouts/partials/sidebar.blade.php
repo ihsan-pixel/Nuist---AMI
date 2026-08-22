@@ -3,6 +3,8 @@
 
     $role = auth()->user()?->role;
     $appLogoUrl = AppSettingController::logoUrl();
+    $appName = \App\Models\AppSetting::query()->where('key', 'app_name')->value('value') ?? config('app.name');
+    $appTagline = \App\Models\AppSetting::query()->where('key', 'app_tagline')->value('value') ?? 'Audit Mutu Internal';
     $menus = [
         'super_admin' => ['Dashboard', 'Periode AMI', 'Instrumen', 'Satuan Pendidikan', 'Auditor', 'Penugasan Auditor', 'Penilaian', 'Temuan', 'Tindak Lanjut', 'Laporan', 'Pengguna', 'Pengaturan'],
         'pengurus' => ['Dashboard', 'Monitoring', 'Temuan', 'Laporan AMI'],
@@ -21,8 +23,8 @@
             </div>
         @endif
         <div class="min-w-0">
-            <div class="truncate text-sm font-semibold tracking-wide text-[#00553F]">NUIST AMI</div>
-            <div class="truncate text-xs text-slate-500">Audit Mutu Internal</div>
+            <div class="truncate text-sm font-semibold tracking-wide text-[#00553F]">{{ $appName }}</div>
+            <div class="truncate text-xs text-slate-500">{{ $appTagline }}</div>
         </div>
     </div>
     <nav class="px-3 py-4 text-sm">

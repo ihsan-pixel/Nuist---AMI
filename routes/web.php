@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
         Route::get('instruments', [InstrumentController::class, 'index'])->name('instruments.index');
         Route::get('settings', [AppSettingController::class, 'index'])->name('settings.index');
         Route::post('settings', [AppSettingController::class, 'update'])->name('settings.update');
+        Route::get('settings/logo', [AppSettingController::class, 'logo'])->name('settings.logo');
         Route::get('auditors', [AdminPlaceholderController::class, 'index'])->name('auditors.index')->defaults('title', 'Auditor');
         Route::get('auditor-assignments', [AdminPlaceholderController::class, 'index'])->name('auditor-assignments.index')->defaults('title', 'Penugasan Auditor');
         Route::get('assessments', [AdminPlaceholderController::class, 'index'])->name('assessments.index')->defaults('title', 'Penilaian');
