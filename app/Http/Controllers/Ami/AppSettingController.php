@@ -7,6 +7,7 @@ use App\Models\AppSetting;
 use Carbon\CarbonInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AppSettingController extends Controller
@@ -66,7 +67,7 @@ class AppSettingController extends Controller
             return null;
         }
 
-        $url = asset('storage/'.$setting->value);
+        $url = Storage::disk('public')->url($setting->value);
 
         return $setting->updated_at instanceof CarbonInterface
             ? $url.'?v='.$setting->updated_at->timestamp
